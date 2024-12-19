@@ -4,22 +4,20 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const app = express();
-const port = 3306;
+const port = 8080;
 
 app.use(cors());
 app.use(bodyParser.json());
 
-const db = mysql.createConnection({
-  host: 'sql.freedb.tech',
-  user: 'freedb_yoooo',
-  password: 'E2#RMZsNNrmdQ*K',
-  database: 'freedb_joacojoacojoaco'
+let db = mysql.createPool({
+  host: process.env.MYSQL_ADDON_HOST || 'bywpwexcqrhly75tfja1-mysql.services.clever-cloud.com',
+  user: process.env.MYSQL_ADDON_USER || 'ugl4dl7wjctd2si1',
+  password: process.env.MYSQL_ADDON_PASSWORD || 'HzTgfXQ8hVw0JdkQxxrg',
+  database: process.env.MYSQL_ADDON_DB || 'bywpwexcqrhly75tfja1',
+  port: process.env.MYSQL_ADDON_PORT || 3306,
+  connectionLimit: 10
 });
 
-db.connect(err => {
-  if (err) throw err;
-  console.log('Conectado a MySQL');
-});
 
 // Endpoint para obtener pedidos
 app.get('/api/pedidos', (req, res) => {
